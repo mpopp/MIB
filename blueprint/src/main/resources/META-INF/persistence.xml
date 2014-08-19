@@ -1,0 +1,32 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+
+    <!-- persistence unit inteded for use in tests only! Note that hsqldb dependencies are only available with testCompile scope! -->
+    <persistence-unit name="database-test">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+
+            <!-- hibernate related properties-->
+            <property name="hibernate.show_sql" value="false" />
+            <property name="hibernate.format_sql" value="false" />
+
+            <property name="hibernate.connection.driver_class"
+                      value="org.hsqldb.jdbcDriver" />
+            <property name="hibernate.connection.url"
+                      value="jdbc:hsqldb:mem:mem:aname" />
+            <property name="hibernate.connection.username" value="sa" />
+
+            <property name="hibernate.dialect"
+                      value="org.hibernate.dialect.HSQLDialect" />
+            <property name="hibernate.hbm2ddl.auto" value="create" />
+        </properties>
+    </persistence-unit>
+
+    <!-- production persistence unit is configured here
+    <persistence-unit name="databasse-production">
+
+    </persistence-unit>
+    -->
+</persistence>

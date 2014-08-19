@@ -1,0 +1,53 @@
+//properties inherited by child projects (ext properties are inherited on project level)
+
+//distribution directory to copy all results of sub-project installApp calls. Relative from cwd
+ext.distributionDir = file('distribution')
+
+allprojects {
+	apply plugin: 'idea'
+}
+
+idea {
+    project {
+        languageLevel = '1.7'
+    }
+}
+
+//copy files from blueprint to the new microservice you want to create
+task copyFiles(type: Copy){
+	if(project.hasProperty('msname')){
+		from 'blueprint'
+		into "./$msname"
+		include '**/*.java' //copy all java files
+		include '**/*.gradle' //copy all gradle files (build.gradle and settings.gradle)
+		include '**/*.xml'
+		
+		//eclude folders and files that we don't want to copy
+		exclude '.gradle'
+		exclude '.settings'
+		exclude 'bin'
+		exclude 'build'
+		exclude 'readme.txt'
+		//all other filetypes are excluded by default
+	}
+}
+
+//Task for registering the new microservice in the settings.gradle file.
+task registerMicroservice {
+	if(project.hasProperty('msname')){
+		//add entry to the settings.gradle file in the root
+		ant.replace(file: "settings.gradle", token:"//<next-token>", value: ", '$msname'//<next-token>")
+	}
+}
+registerMicroservice.dependsOn copyFiles
+
+//Call this task as shown: gradle createMS -Pmsname="your-microservice"
+//This task copies the blueprint and renames the copy to "your-microservice".
+//It adds the new microservice as a child project in the settings.gradle file of 
+// the root.
+task createMS << {}
+createMS.dependsOn registerMicroservice
+
+task clean(type: Delete) {
+	delete distributionDir.name
+}

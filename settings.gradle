@@ -1,0 +1,3 @@
+//leave the token at the end of the includes untouched. It is used as a marker for the gradle script to 
+//know where to add newly created microservices to.
+include 'microservice-commons', 'core'//<next-token>

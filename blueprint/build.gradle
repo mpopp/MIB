@@ -1,0 +1,41 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+
+//
+mainClassName = "mib.microservice.main.MicroserviceMain"
+
+//properties for java plugin
+sourceCompatibility = 1.7
+version = '1.0'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	//We depend on microservice-commons to make it easy to change infrastructure config and still 
+	//have it available in all microservice projects immediately.
+	compile project(':microservice-commons')
+	compile project(':core')
+
+    //hibernate dependencies.
+    //happily exchange for your own db if you want to use something different in your microservice.
+    compile 'org.hibernate:hibernate-core:4.3.5.Final'
+    compile 'org.hibernate:hibernate-entitymanager:4.3.5.Final'
+    //needed for hibernate to establish logging
+    compile 'org.slf4j:slf4j-simple:1.6.2'
+
+
+    //only for testing purpose. DO NOT USE IN PRODUCTION (i.e. write a separate persistence-unit to use for production)
+    //think about how we are going to test (in memory db vs persistent db ?!)
+    compile 'org.hsqldb:hsqldb:2.3.2'
+}
+
+//extends the install app task by setting a destination dir if the task was 
+//called from the parent gradle file.
+installApp {
+	if(parent.hasProperty('distributionDir')){
+		destinationDir = file(distributionDir.absolutePath + "/$project.name")
+	}
+}

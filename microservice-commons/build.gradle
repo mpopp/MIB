@@ -1,0 +1,24 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+//properties for java plugin
+sourceCompatibility = 1.7
+version = '1.0'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    compile project(':core')
+
+	compile 'javax.ws.rs:javax.ws.rs-api:2.0' //api for rest service convenience
+	compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.10' //impl of jax-rs api
+	compile 'org.eclipse.jetty:jetty-server:9.2.1.v20140609'
+	compile 'org.eclipse.jetty:jetty-servlet:9.2.1.v20140609'
+	compile 'com.owlike:genson:1.0' //Genson does the parsing of Object <> JSON in Jax-rs methods automatically for us
+	compile 'args4j:args4j:2.0.28'
+	compile 'org.apache.commons:commons-lang3:3.3.2'
+	compile 'com.google.guava:guava:17.0'
+	compile 'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final'
+}
