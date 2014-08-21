@@ -1,0 +1,2 @@
+#ignore settings gradle to avoid committing comain specific dependencies accidentally
+settings.gradle
