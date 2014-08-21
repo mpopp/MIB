@@ -1,2 +1,18 @@
 #ignore settings gradle to avoid committing comain specific dependencies accidentally
 settings.gradle
+.gradle/
+.settings/
+bin/
+build/
+gradle/
+.classpath
+.project
+gradlew
+gradlew.bat
+*.iml
+*.log
+*.ids
+*.ipr
+*.iws
+out
+distribution/

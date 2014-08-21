@@ -3,6 +3,9 @@
 //distribution directory to copy all results of sub-project installApp calls. Relative from cwd
 ext.distributionDir = file('distribution')
 
+//directory where the microservices should be created
+ext.servicesDir = file('../microservices')
+
 allprojects {
 	apply plugin: 'idea'
 }
@@ -14,10 +17,10 @@ idea {
 }
 
 //copy files from blueprint to the new microservice you want to create
-task copyFiles(type: Copy){
+task copyFilesFromBlueprint(type: Copy){
 	if(project.hasProperty('msname')){
 		from 'blueprint'
-		into "./$msname"
+		into "$servicesDir/$msname"
 		include '**/*.java' //copy all java files
 		include '**/*.gradle' //copy all gradle files (build.gradle and settings.gradle)
 		include '**/*.xml'
@@ -32,21 +35,41 @@ task copyFiles(type: Copy){
 	}
 }
 
-//Task for registering the new microservice in the settings.gradle file.
-task registerMicroservice {
-	if(project.hasProperty('msname')){
-		//add entry to the settings.gradle file in the root
-		ant.replace(file: "settings.gradle", token:"//<next-token>", value: ", '$msname'//<next-token>")
+//Overwrites the settings.gradle file with the settings.gradle.blueprint file
+//After overwriting, scans the microserviceProjects dir and adds every microservices as an include
+task updateMicroserviceIncludes {
+
+	//replace the settings.gradle file with the blueprint
+	def settingsFileName = "settings.gradle"
+	def blueprint = new File(settingsFileName + ".blueprint")
+	def origFile = new File(settingsFileName)
+	def settingsFilePath = origFile.toPath()
+	origFile.delete()
+	java.nio.file.Files.copy(blueprint.toPath(), settingsFilePath)
+	
+	//Include all microservices from the microserviceProjects directory
+	def settingsFile = new File(settingsFileName) //open the fresh settings file
+	FileCollection microserviceProjects = files(servicesDir.listFiles())
+	microserviceProjects.each { File serviceProject -> 
+		if(serviceProject.isDirectory()){
+			def projectInclude = "include ':$serviceProject.name'"
+			//needs to be escaped if windows paths are used because parsing from the settings.gradle 
+			//file later on would throw an exception otherwise
+			def escapedProjectPath = serviceProject.path.replace("\\", "\\\\")
+			def projectLocation = "project(':$serviceProject.name').projectDir = file('$escapedProjectPath')"
+			settingsFile << "\n\n" + projectInclude 
+			settingsFile << "\n" + projectLocation
+		}
 	}
 }
-registerMicroservice.dependsOn copyFiles
+updateMicroserviceIncludes.dependsOn copyFilesFromBlueprint
 
 //Call this task as shown: gradle createMS -Pmsname="your-microservice"
 //This task copies the blueprint and renames the copy to "your-microservice".
 //It adds the new microservice as a child project in the settings.gradle file of 
 // the root.
 task createMS << {}
-createMS.dependsOn registerMicroservice
+createMS.dependsOn updateMicroserviceIncludes
 
 task clean(type: Delete) {
 	delete distributionDir.name

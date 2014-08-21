@@ -25,10 +25,3 @@ dependencies {
 	compile 'log4j:log4j:1.2.17' // force log4j version
 	compile "org.apache.kafka:kafka_$scalaVersion:$kafkaVersion" // kafka message queue
 }
-
-/*
-jar {
-	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-	manifest { attributes 'Main-Class': 'mib.microservices.testservice.TestService' }
-}
-*/

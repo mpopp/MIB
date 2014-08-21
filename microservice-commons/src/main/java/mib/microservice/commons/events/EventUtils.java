@@ -1,6 +1,6 @@
 package mib.microservice.commons.events;
 
-import mib.commons.events.base.EventBase;
+import mib.microservice.commons.events.base.EventBase;
 import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;

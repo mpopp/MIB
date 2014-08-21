@@ -11,7 +11,7 @@ import org.glassfish.jersey.servlet.ServletContainer;
 
 import mib.microservice.commons.cli.CLI;
 
-/**
+/**s
  * Util class for configuring and initializing jetty.
  * 
  * @author matthias.popp

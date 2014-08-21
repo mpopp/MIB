@@ -1,0 +1,9 @@
+/* From  settings.gradle.blueprint the settings file of MIB ITSELF is created.
+   So YOUR CUSTOM CODE for that settings file should go INTO THIS BLUEPRINT.
+   
+   Process is the following:
+   1) Current existing settings.gradle is overwritten with the blueprint
+   2) A scan for the directory you specified for your microservices in the build script is made
+   2.1) For every project in that microservices folder, an entry in this settings.gradle file is generated.
+*/
+include 'microservice-commons', 'core'
