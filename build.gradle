@@ -1,10 +1,10 @@
 //properties inherited by child projects (ext properties are inherited on project level)
 
 //distribution directory to copy all results of sub-project installApp calls. Relative from cwd
-ext.distributionDir = file('distribution')
+ext.distributionDir = file('../distribution')
 
 //directory where the microservices should be created
-ext.servicesDir = file('../microservices')
+ext.servicesDir = file('../domaincode')
 
 allprojects {
 	apply plugin: 'idea'
