@@ -15,6 +15,8 @@ Usage
 ===
 The blueprint directory acts as the ... blueprint ;) for all of your services.
 
+For detailed instructions on how to use MIB, look at the wiki.
+
 By executing the following commands, you create a new microservice project from the blueprint. 
 
 ```
