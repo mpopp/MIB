@@ -49,7 +49,7 @@ task updateMicroserviceIncludes {
 	
 	//Include all microservices from the microserviceProjects directory
 	def settingsFile = new File(settingsFileName) //open the fresh settings file
-	FileCollection microserviceProjects = files(servicesDir.listFiles())
+	FileCollection microserviceProjects = files(servicesDir.listFiles() ?: [])
 	microserviceProjects.each { File serviceProject -> 
 		if(serviceProject.isDirectory()){
 			def projectInclude = "include ':$serviceProject.name'"
