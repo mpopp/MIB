@@ -11,6 +11,10 @@ We also want full controll of what libraries we include, because we care about t
 
 At the same time we don't want to spend time configuring every single microservice again. So we build MIB with a ready-for-development approach. That means our goal by using MIB is to get to business code development within 5 minutes after an initial clone.
 
+Requirements
+===
+Gralde 2.0
+
 Usage
 ===
 Checkout mib into the directory `mib` which should be a subfolder of your working directory for your project:
