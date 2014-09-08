@@ -13,16 +13,26 @@ At the same time we don't want to spend time configuring every single microservi
 
 Usage
 ===
+Checkout mib into the directory `mib` which should be a subfolder of your working directory for your project:
+
+	yourProject
+	|- mib          // checkout mib into this directory
+    |- domaincode   // this directory will be created once you create microServices
+
+Create your first microservice:
+
+    gradle createMS -Pmsname="name of your microservice"
+	gradle idea
+
+Internal structure of MIB
+====
+
 The blueprint directory acts as the ... blueprint ;) for all of your services.
 
 For detailed instructions on how to use MIB, look at the wiki.
 
-By executing the following commands, you create a new microservice project from the blueprint. 
+The `createMs` command creates a new microservice project from the blueprint. 
 
-```
-gradle createMS -Pmsname="name of your microservice"
-gradle idea
-```
 
 What is MIB meant to be?
 ===
