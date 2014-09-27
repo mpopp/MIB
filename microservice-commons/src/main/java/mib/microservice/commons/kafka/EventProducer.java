@@ -1,8 +1,9 @@
-package mib.microservice.commons.events;
+package mib.microservice.commons.kafka;
 
 import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
+import mib.microservice.commons.events.IEventProducer;
 import mib.microservice.commons.events.base.EventBase;
 
 public class EventProducer<TOut extends EventBase<?>> implements IEventProducer<TOut> {

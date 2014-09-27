@@ -1,5 +1,6 @@
 package mib.microservice.commons.kafka;
 
+import mib.microservice.commons.events.IEventConsumer;
 import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
 import kafka.message.MessageAndMetadata;
@@ -7,9 +8,9 @@ import kafka.message.MessageAndMetadata;
 
 public class Consumer<K, V> implements Runnable {
 	private KafkaStream<K, V> stream;
-	private Command<K, V> command;
+	private IEventConsumer<K, V> command;
 	
-	public Consumer(KafkaStream<K, V> stream, Command<K, V> command) {
+	public Consumer(KafkaStream<K, V> stream, IEventConsumer<K, V> command) {
 		this.stream = stream;
 		this.command = command;
 	}

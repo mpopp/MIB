@@ -12,6 +12,8 @@ import kafka.javaapi.consumer.ConsumerConnector;
 import kafka.serializer.Decoder;
 import kafka.serializer.StringDecoder;
 import mib.microservice.commons.cli.CLI;
+import mib.microservice.commons.events.IEventConsumer;
+import mib.microservice.commons.events.IEventDispatcher;
 import mib.microservice.commons.events.base.EventBase;
 
 public class EventDispatcher<TIn extends EventBase<?>> implements IEventDispatcher<TIn> {
@@ -22,14 +24,14 @@ public class EventDispatcher<TIn extends EventBase<?>> implements IEventDispatch
 	
 	private final ConsumerConfig consumerConfig;
 
-	private final IKafkaCommand<TIn> dispatcherCommand;
+	private final IEventConsumer<String, TIn> dispatcherCommand;
 
 	private final String topic;
 	
 	public EventDispatcher(
 			final Class<TIn> eventClass,
 			final CLI options,
-			final IKafkaCommand<TIn> dispatcherCommand) {
+			final IEventConsumer<String, TIn> dispatcherCommand) {
 		KafkaConfigParser configParser = new KafkaConfigParser();
 		configParser.parseConfig(options);
 		
@@ -61,14 +63,7 @@ public class EventDispatcher<TIn extends EventBase<?>> implements IEventDispatch
 		
 		// actually create/submit threads
 		for (final KafkaStream<String, TIn> stream : consumerMap.get(this.topic)) {
-			executor.submit(new Consumer<String, TIn>(
-					stream,
-					new Command<String, TIn>() {
-						@Override
-						public void execute(String key, TIn value) {
-							dispatcherCommand.execute(value);
-						};
-					}));
+			executor.submit(new Consumer<String, TIn>(stream, dispatcherCommand));
 		}
 
 		// do not close producer while threads are still running

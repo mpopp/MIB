@@ -1,4 +1,4 @@
-package mib.microservice.commons.kafka;
+package mib.microservice.commons.events;
 
 import mib.microservice.commons.events.base.EventBase;
 

@@ -2,9 +2,9 @@ package mib.microservice.main;
 
 import mib.microservice.commons.cli.CLI;
 import mib.microservice.commons.cli.CmdLineParser;
+import mib.microservice.commons.events.IEventConsumer;
 import mib.microservice.commons.events.base.EventBase;
 import mib.microservice.commons.jetty.JettyUtils;
-import mib.microservice.commons.kafka.IKafkaCommand;
 import mib.microservice.commons.kafka.EventDispatcher;
 import mib.microservice.commons.persistence.PersistenceUtils;
 
@@ -36,9 +36,9 @@ public class MicroserviceMain {
 		EventDispatcher<EventBase> kafkaDispatcher = new EventDispatcher<>(
 				EventBase.class,
 				options,
-				new IKafkaCommand<EventBase>() {
+				new IEventConsumer<String, EventBase>() {
 					@Override
-					public void execute(EventBase event) {
+					public void execute(String key, EventBase event) {
 						// do something with the event, e.g. forward to web service
 					}
 				});
