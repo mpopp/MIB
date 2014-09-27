@@ -1,12 +1,13 @@
 package mib.microservice.commons.kafka;
 
 import mib.microservice.commons.events.IEventConsumer;
+import mib.microservice.commons.events.base.EventBase;
 import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
 import kafka.message.MessageAndMetadata;
 
 
-public class Consumer<K, V> implements Runnable {
+public class Consumer<K, V extends EventBase<?>> implements Runnable {
 	private KafkaStream<K, V> stream;
 	private IEventConsumer<K, V> command;
 	

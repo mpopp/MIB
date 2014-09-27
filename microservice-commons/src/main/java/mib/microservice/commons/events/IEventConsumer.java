@@ -1,5 +1,7 @@
 package mib.microservice.commons.events;
 
-public interface IEventConsumer<K, V> {
+import mib.microservice.commons.events.base.EventBase;
+
+public interface IEventConsumer<K, V extends EventBase<?>> {
 	public void execute(K key, V value);
 }
