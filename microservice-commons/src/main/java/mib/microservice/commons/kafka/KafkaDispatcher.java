@@ -20,14 +20,14 @@ import mib.microservices.util.JsonDecoder;
 public class KafkaDispatcher<TIn extends EventBase> implements IKafkaDispatcher<TIn> {
 	private static final int threadsPerTopic = 1;
 	
-	private JsonDecoder<TIn> valueDecoder;
-	private Decoder<String> keyDecoder;
+	private final JsonDecoder<TIn> valueDecoder;
+	private final Decoder<String> keyDecoder;
 	
-	private ConsumerConfig consumerConfig;
+	private final ConsumerConfig consumerConfig;
 
-	private IKafkaCommand<TIn> dispatcherCommand;
+	private final IKafkaCommand<TIn> dispatcherCommand;
 
-	private String topic;
+	private final String topic;
 	
 	public KafkaDispatcher(
 			final Class<TIn> eventClass,

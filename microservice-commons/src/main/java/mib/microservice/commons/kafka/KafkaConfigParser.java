@@ -38,8 +38,7 @@ public class KafkaConfigParser {
 		this.serviceConfig = this.parseConfig(args.getKafkaConfigJson());
 		
 		if(this.serviceConfig == null) {
-			this.serviceConfig = new ServiceConfig("partitions");
-			this.serviceConfig.publish = "ping";
+			this.serviceConfig = new ServiceConfig();
 		}
 		
 		// TODO remove, only for testing

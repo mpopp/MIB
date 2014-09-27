@@ -2,14 +2,15 @@ package mib.microservice.commons.jetty;
 
 import java.util.Arrays;
 
+import mib.microservice.commons.cli.CLI;
+
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
-
-import mib.microservice.commons.cli.CLI;
 
 /**s
  * Util class for configuring and initializing jetty.
@@ -47,6 +48,19 @@ public class JettyUtils {
 		// "com.owlite.genson.ext.jars" adds the genson library as provider for
 		// MessageBodyWriter and MessageBodyReader.
 		jerseyServlet.setInitParameter("jersey.config.server.provider.packages", StringUtils.join(packagesToScan, ','));
+		return server;
+	}
+	
+	public static Server initializeJetty(CLI options, Object serviceInstance) {
+		Server server = createServer(options);
+		ServletContextHandler context = createServletContext(server);
+		
+		ResourceConfig resourceConfig = new ResourceConfig().register(serviceInstance);
+		
+		ServletHolder jerseyServlet = new ServletHolder(new ServletContainer(resourceConfig));
+		jerseyServlet.setInitParameter("com.sun.jersey.config.property.packages", "my.package.to.scan");
+		context.addServlet(jerseyServlet, "/*");
+		
 		return server;
 	}
 

@@ -1,8 +1,6 @@
 package mib.microservices.util;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,22 +8,10 @@ import java.util.Map;
  *
  */
 public class ServiceConfig {
-	public ServiceConfig(String... subscriptions) {
-		this.subscriptions = Arrays.asList(subscriptions);
-		
+	public ServiceConfig() {
 		this.consumer = new HashMap<>();
 		this.producer = new HashMap<>();
 	}
-	
-	/**
-	 * List of subscription topics
-	 */
-	public List<String> subscriptions;
-	
-	/**
-	 * Publication topic
-	 */
-	public String publish;
 	
 	/**
 	 * Properties for consumer 
