@@ -1,5 +1,7 @@
 package mib.microservice.commons.events.base;
 
+import mib.microservice.commons.events.meta.IEventMeta;
+
 
 /**
  * This is the abstract base class for all events in our microservices. Every
@@ -10,22 +12,53 @@ package mib.microservice.commons.events.base;
  *
  * Created by matthias.popp on 14.08.2014.
  */
-public abstract class EventBase {
-	private EventMetadata metadata;
+public abstract class EventBase<TMeta extends IEventMeta> {
+	private Class<TMeta> metaType;
+
+	protected EventBase(Class<TMeta> metaClass) {
+		this.metaType = metaClass;
+	}
 	
-	protected EventBase(EventMetadata metadata) {
-		this.metadata = metadata;
+	public TMeta getMeta() {
+		TMeta metaInstance = null;
+		try {
+			metaInstance = this.metaType.newInstance();
+		} catch (InstantiationException ex) {
+			ex.printStackTrace();
+		} catch (IllegalAccessException ex) {
+			ex.printStackTrace();
+		}
+		
+		return metaInstance;
 	}
 	
 	public String getEventId() {
-		return this.metadata.getEventId();
+		TMeta meta = this.getMeta();
+		return meta != null ? meta.getEventId() : null;
 	}
 	
-	public static String getEventId(Class<? extends EventBase> eventClass) {
+	public static String getEventId(Class<? extends EventBase<?>> eventClass) {
+		IEventMeta meta = getMeta(eventClass);
+		
+		return meta != null ? meta.getEventId() : null;
+	}
+	
+	private static IEventMeta getMeta(Class<? extends EventBase<?>> eventClass) {
+		EventBase<?> event = create(eventClass);
+		
+		return event != null ? event.getMeta() : null;
+	}
+	
+	private static EventBase<?> create(Class<? extends EventBase<?>> eventClass) {
+		EventBase<?> event = null;
 		try {
-			return eventClass.newInstance().getEventId();
-		} catch (Exception ex) {
-			return null;
+			event = eventClass.newInstance();
+		} catch (InstantiationException ex) {
+			ex.printStackTrace();
+		} catch (IllegalAccessException ex) {
+			ex.printStackTrace();
 		}
+		
+		return event;
 	}
 }

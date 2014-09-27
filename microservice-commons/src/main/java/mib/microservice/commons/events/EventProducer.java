@@ -5,7 +5,7 @@ import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
 import mib.microservice.commons.events.base.EventBase;
 
-public class EventProducer<TOut extends EventBase> implements IEventProducer<TOut> {
+public class EventProducer<TOut extends EventBase<?>> implements IEventProducer<TOut> {
 	private final Producer<String, TOut> producer;
 	
 	public EventProducer(final ProducerConfig producerConfig) {

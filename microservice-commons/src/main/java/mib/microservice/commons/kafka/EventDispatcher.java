@@ -17,7 +17,7 @@ import mib.microservices.util.Command;
 import mib.microservices.util.Consumer;
 import mib.microservices.util.JsonDecoder;
 
-public class EventDispatcher<TIn extends EventBase> implements IEventDispatcher<TIn> {
+public class EventDispatcher<TIn extends EventBase<?>> implements IEventDispatcher<TIn> {
 	private static final int threadsPerTopic = 1;
 	
 	private final JsonDecoder<TIn> valueDecoder;
