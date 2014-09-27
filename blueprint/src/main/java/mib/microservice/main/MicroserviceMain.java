@@ -5,7 +5,7 @@ import mib.microservice.commons.cli.CmdLineParser;
 import mib.microservice.commons.events.base.EventBase;
 import mib.microservice.commons.jetty.JettyUtils;
 import mib.microservice.commons.kafka.IKafkaCommand;
-import mib.microservice.commons.kafka.KafkaDispatcher;
+import mib.microservice.commons.kafka.EventDispatcher;
 import mib.microservice.commons.persistence.PersistenceUtils;
 
 import org.eclipse.jetty.server.Server;
@@ -33,7 +33,7 @@ public class MicroserviceMain {
 		PersistenceUtils.initialize("mib-test");
 
 		// configure and start kafka dispatcher to react to events
-		KafkaDispatcher<EventBase> kafkaDispatcher = new KafkaDispatcher<>(
+		EventDispatcher<EventBase> kafkaDispatcher = new EventDispatcher<>(
 				EventBase.class,
 				options,
 				new IKafkaCommand<EventBase>() {
