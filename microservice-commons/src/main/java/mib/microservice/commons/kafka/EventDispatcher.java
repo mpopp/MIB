@@ -13,9 +13,6 @@ import kafka.serializer.Decoder;
 import kafka.serializer.StringDecoder;
 import mib.microservice.commons.cli.CLI;
 import mib.microservice.commons.events.base.EventBase;
-import mib.microservices.util.Command;
-import mib.microservices.util.Consumer;
-import mib.microservices.util.JsonDecoder;
 
 public class EventDispatcher<TIn extends EventBase<?>> implements IEventDispatcher<TIn> {
 	private static final int threadsPerTopic = 1;

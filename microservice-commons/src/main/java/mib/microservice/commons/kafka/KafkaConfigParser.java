@@ -5,7 +5,6 @@ import java.io.IOException;
 import kafka.consumer.ConsumerConfig;
 import kafka.producer.ProducerConfig;
 import mib.microservice.commons.cli.CLI;
-import mib.microservices.util.ServiceConfig;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

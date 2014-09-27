@@ -1,4 +1,4 @@
-package mib.microservices.util;
+package mib.microservice.commons.kafka;
 
 import kafka.serializer.Decoder;
 

@@ -17,7 +17,6 @@ dependencies {
 	//We depend on microservice-commons to make it easy to change infrastructure config and still 
 	//have it available in all microservice projects immediately.
 	compile project(':microservice-commons')
-	compile project(':core')
 
     //hibernate dependencies.
     //happily exchange for your own db if you want to use something different in your microservice.

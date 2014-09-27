@@ -1,7 +1,6 @@
-include 'microservice-commons', 'core'
+include 'microservice-commons'
 
 //TODO pull the path part of this settings out into a settings file. Best would be to have a common settings file for 
 //all domain specific microservices for locating the projects needed by the domain services
 project(':microservice-commons').projectDir = file('../../mib/microservice-commons')
-project(':core').projectDir = file('../../mib/core')
 

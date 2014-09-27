@@ -6,4 +6,4 @@
    2) A scan for the directory you specified for your microservices in the build script is made
    2.1) For every project in that microservices folder, an entry in this settings.gradle file is generated.
 */
-include 'microservice-commons', 'core'
+include 'microservice-commons'
