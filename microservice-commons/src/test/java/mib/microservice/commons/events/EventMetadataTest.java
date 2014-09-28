@@ -3,6 +3,7 @@ package mib.microservice.commons.events;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import mib.microservice.commons.events.base.EventBase;
 import mib.microservice.commons.events.meta.EventMetaBase;
@@ -78,5 +79,16 @@ public class EventMetadataTest {
 		String eventId = EventBase.getEventId(TestEvent.class);
 		
 		assertThat(eventId, is(equalTo("testname_testversion")));
+	}
+	
+	/**
+	 * Metadata instances for an event type should only be created once
+	 */
+	@Test
+	public void metadataCaching() {
+		TestEvent event1 = new TestEvent();
+		TestEvent event2 = new TestEvent();
+		
+		assertThat(event1.getMeta(), is(sameInstance(event2.getMeta())));
 	}
 }

@@ -1,5 +1,8 @@
 package mib.microservice.commons.events.base;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import mib.microservice.commons.events.meta.IEventMeta;
 
 
@@ -13,27 +16,32 @@ import mib.microservice.commons.events.meta.IEventMeta;
  * Created by matthias.popp on 14.08.2014.
  */
 public abstract class EventBase<TMeta extends IEventMeta> {
-	private Class<TMeta> metaType;
+	private final Class<TMeta> metaType;
+	private final static Map<Class<?>, IEventMeta> metadataCache = new HashMap<>();
 
 	protected EventBase(Class<TMeta> metaClass) {
 		this.metaType = metaClass;
 	}
 	
-	public TMeta getMeta() {
-		TMeta metaInstance = null;
-		try {
-			metaInstance = this.metaType.newInstance();
-		} catch (InstantiationException ex) {
-			ex.printStackTrace();
-		} catch (IllegalAccessException ex) {
-			ex.printStackTrace();
+	public IEventMeta getMeta() {
+		IEventMeta metaInstance = EventBase.metadataCache.get(this.metaType);
+		
+		if(metaInstance == null) {
+			try {
+				metaInstance = this.metaType.newInstance(); 
+				EventBase.metadataCache.put(this.metaType, metaInstance);
+			} catch (InstantiationException ex) {
+				ex.printStackTrace();
+			} catch (IllegalAccessException ex) {
+				ex.printStackTrace();
+			}
 		}
 		
 		return metaInstance;
 	}
 	
 	public String getEventId() {
-		TMeta meta = this.getMeta();
+		IEventMeta meta = this.getMeta();
 		return meta != null ? meta.getEventId() : null;
 	}
 	
