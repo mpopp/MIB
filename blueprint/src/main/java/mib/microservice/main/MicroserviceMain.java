@@ -3,7 +3,6 @@ package mib.microservice.main;
 import mib.microservice.commons.cli.CLI;
 import mib.microservice.commons.cli.CmdLineParser;
 import mib.microservice.commons.events.IEventConsumer;
-import mib.microservice.commons.events.base.EventBase;
 import mib.microservice.commons.jetty.JettyUtils;
 import mib.microservice.commons.kafka.EventDispatcher;
 import mib.microservice.commons.persistence.PersistenceUtils;
@@ -33,12 +32,12 @@ public class MicroserviceMain {
 		PersistenceUtils.initialize("mib-test");
 
 		// configure and start kafka dispatcher to react to events
-		EventDispatcher<EventBase> kafkaDispatcher = new EventDispatcher<>(
-				EventBase.class,
+		EventDispatcher<Event> kafkaDispatcher = new EventDispatcher<>(
+				Event.class,
 				options,
-				new IEventConsumer<String, EventBase>() {
+				new IEventConsumer<String, Event>() {
 					@Override
-					public void execute(String key, EventBase event) {
+					public void execute(String key, Event event) {
 						// do something with the event, e.g. forward to web service
 					}
 				});
