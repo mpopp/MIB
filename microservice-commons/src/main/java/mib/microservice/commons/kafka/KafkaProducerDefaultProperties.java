@@ -13,9 +13,9 @@ public class KafkaProducerDefaultProperties extends Properties {
 	private static final long serialVersionUID = 1L;
 
 	public KafkaProducerDefaultProperties() {
-		this.put("serializer.class", "mib.microservices.util.JsonEncoder");
-		this.put("key.serializer.class", "kafka.serializer.StringEncoder");
-		this.put("partitioner.class", "kafka.producer.DefaultPartitioner");
+		this.put("serializer.class", JsonEncoder.class.getName());
+		this.put("key.serializer.class", kafka.serializer.StringEncoder.class.getName());
+		this.put("partitioner.class", kafka.producer.DefaultPartitioner.class.getName());
 		this.put("request.required.acks", "1");
 	}
 	
