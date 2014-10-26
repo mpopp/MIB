@@ -1,10 +1,9 @@
 package mib.microservice.commons.kafka;
 
-import mib.microservice.commons.events.IEventConsumer;
-import mib.microservice.commons.events.base.EventBase;
-import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
 import kafka.message.MessageAndMetadata;
+import mib.microservice.commons.events.IEventConsumer;
+import mib.microservice.commons.events.base.EventBase;
 
 
 public class Consumer<K, V extends EventBase<?>> implements Runnable {
@@ -18,10 +17,7 @@ public class Consumer<K, V extends EventBase<?>> implements Runnable {
 	
 	@Override
 	public void run() {
-		ConsumerIterator<K, V> it = this.stream.iterator();
-		while (it.hasNext()) {
-			MessageAndMetadata<K, V> msg = it.next();
-			
+		for (MessageAndMetadata<K, V> msg : this.stream) {
 			System.out.println("p" + msg.partition() + " @" + msg.offset());
 			
 			this.command.execute(msg.key(), msg.message());
