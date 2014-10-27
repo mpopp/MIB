@@ -3,6 +3,8 @@ package mib.microservice.commons.events.base;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import mib.microservice.commons.events.meta.IEventMeta;
 
 
@@ -12,6 +14,8 @@ import mib.microservice.commons.events.meta.IEventMeta;
  * combination can be used to listen to the event. If a concrete event
  * implementation is changed, the version should be increased, to signal the
  * change for all interested services.
+ * 
+ * All event implementations must provide an accessible parameterless constructor.
  *
  * Created by matthias.popp on 14.08.2014.
  */
@@ -23,6 +27,7 @@ public abstract class EventBase<TMeta extends IEventMeta> {
 		this.metaType = metaClass;
 	}
 	
+	@JsonIgnore
 	public IEventMeta getMeta() {
 		IEventMeta metaInstance = EventBase.metadataCache.get(this.metaType);
 		
@@ -40,6 +45,7 @@ public abstract class EventBase<TMeta extends IEventMeta> {
 		return metaInstance;
 	}
 	
+	@JsonIgnore
 	public String getEventId() {
 		IEventMeta meta = this.getMeta();
 		return meta != null ? meta.getEventId() : null;
