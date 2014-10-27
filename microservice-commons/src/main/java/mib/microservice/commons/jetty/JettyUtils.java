@@ -51,7 +51,7 @@ public class JettyUtils {
 		return server;
 	}
 	
-	public static Server initializeJetty(CLI options, Object serviceInstance) {
+	public static Server initializeJetty(CLI options, IJettyService serviceInstance) {
 		Server server = createServer(options);
 		ServletContextHandler context = createServletContext(server);
 		
