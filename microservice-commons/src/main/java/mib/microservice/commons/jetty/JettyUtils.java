@@ -45,7 +45,7 @@ public class JettyUtils {
 		// Package scan is used to detect resources. This implies that all
 		// services we write are placed in the
 		// "package mib.api.gateway.service".
-		// "com.owlite.genson.ext.jars" adds the genson library as provider for
+		// "com.owlike.genson.ext.jaxrs" adds the genson library as provider for
 		// MessageBodyWriter and MessageBodyReader.
 		jerseyServlet.setInitParameter("jersey.config.server.provider.packages", StringUtils.join(packagesToScan, ','));
 		return server;
@@ -55,10 +55,9 @@ public class JettyUtils {
 		Server server = createServer(options);
 		ServletContextHandler context = createServletContext(server);
 		
-		ResourceConfig resourceConfig = new ResourceConfig().register(serviceInstance);
+		ResourceConfig resourceConfig = new ResourceConfig().register(serviceInstance).packages("com.owlike.genson.ext.jaxrs");
 		
 		ServletHolder jerseyServlet = new ServletHolder(new ServletContainer(resourceConfig));
-		jerseyServlet.setInitParameter("com.sun.jersey.config.property.packages", "my.package.to.scan");
 		context.addServlet(jerseyServlet, "/*");
 		
 		return server;
