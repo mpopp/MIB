@@ -70,9 +70,10 @@ public class JettyUtils {
 		// Set network interface on which jetty has to listen for calls. If that
 		// block is not executed, jetty will listen on ALL network interfaces
 		// (private and publicly available ips).
-		if (StringUtils.isBlank(options.getJettyHost())) {
+		if (!StringUtils.isBlank(options.getJettyHost())) {
 			ServerConnector connector = new ServerConnector(server);
 			connector.setHost(options.getJettyHost());
+			connector.setPort(options.getJettyPort());
 			server.setConnectors(new ServerConnector[] { connector });
 		}
 		return server;
