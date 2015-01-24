@@ -51,12 +51,15 @@ public class JettyUtils {
 		return server;
 	}
 	
-	public static Server initializeJetty(CLI options, IJettyService serviceInstance) {
+	public static Server initializeJetty(CLI options, IJettyService ... serviceInstances) {
 		Server server = createServer(options);
 		ServletContextHandler context = createServletContext(server);
-		
-		ResourceConfig resourceConfig = new ResourceConfig().register(serviceInstance).packages("com.owlike.genson.ext.jaxrs");
-		
+
+		ResourceConfig resourceConfig = new ResourceConfig();
+		for(int i = 0; i < serviceInstances.length; i++) {
+			resourceConfig.register(serviceInstances[i]);
+		}
+		resourceConfig.packages("com.owlike.genson" + ".ext.jaxrs");
 		ServletHolder jerseyServlet = new ServletHolder(new ServletContainer(resourceConfig));
 		context.addServlet(jerseyServlet, "/*");
 		
