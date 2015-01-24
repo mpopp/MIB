@@ -42,4 +42,8 @@ public class PersistenceUtils {
     public static boolean isTransactionActive(EntityManager em){
         return em.getTransaction().isActive();
     }
+
+	public static void rollbackTransaction(EntityManager em) {
+		em.getTransaction().rollback();
+	}
 }
